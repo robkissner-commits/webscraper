@@ -1,0 +1,32 @@
+# Event Scraper Dependencies
+
+# Core dependencies
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=5.1.0
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+
+# Date/time parsing
+python-dateutil>=2.8.2
+
+# iCal parsing
+icalendar>=5.0.11
+
+# Playwright for JavaScript-heavy sites
+playwright>=1.40.0
+
+# Google Sheets API
+google-api-python-client>=2.110.0
+google-auth>=2.25.0
+google-auth-oauthlib>=1.2.0
+google-auth-httplib2>=0.2.0
+
+# Anthropic Claude API (for vision scraping)
+anthropic>=0.39.0
+
+# Optional: Progress bars and better CLI output
+tqdm>=4.66.0
+
+# Optional: Better logging
+colorlog>=6.8.0
