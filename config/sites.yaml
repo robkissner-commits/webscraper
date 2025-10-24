@@ -1,0 +1,193 @@
+# Event Scraper Site Configuration
+#
+# This file contains configuration for all sites to be scraped.
+# Each site specifies:
+# - name: Organization name
+# - url: Website URL
+# - method: Scraping method (ical, json, html, playwright, vision)
+# - status: Site status (good, ok, broken, unchecked)
+# - Additional method-specific configuration
+
+sites:
+  # ===============================
+  # iCal Scraper Sites
+  # ===============================
+
+  - name: "Village of Mamaroneck"
+    url: "https://www.villageofmamaroneck.org"
+    ical_url: "https://www.villageofmamaroneck.org/calendar.ics"
+    method: "ical"
+    status: "good"
+    notes: "Has iCal feed with event data"
+
+  - name: "Mamaroneck High School"
+    url: "https://www.mamkschools.org"
+    ical_url: "https://www.mamkschools.org/calendar.ics"
+    method: "ical"
+    status: "good"
+    notes: "School calendar with events"
+
+  # ===============================
+  # JSON/API Scraper Sites
+  # ===============================
+
+  - name: "Mamaroneck Library"
+    url: "https://mamaronecklibrary.org"
+    api_url: "https://mamaronecklibrary.org/events.json"
+    method: "json"
+    status: "ok"
+    notes: "JSON feed available but details may be in images"
+    field_map:
+      title: "title"
+      description: "description"
+      when_date: "start_date"
+      when_time: "start_time"
+      location: "location"
+      event_url: "url"
+      image_url: "image.url"
+
+  # ===============================
+  # HTML Scraper Sites
+  # ===============================
+
+  - name: "Emelin Theater"
+    url: "https://www.emelin.org/events"
+    method: "html"
+    status: "good"
+    notes: "Clean HTML structure, easy to scrape"
+    selectors:
+      container: "div.event-item"
+      title: "h3.event-title"
+      description: "div.event-description"
+      date: "span.event-date"
+      time: "span.event-time"
+      location: "span.event-location"
+      url: "a.event-link"
+      image: "img.event-image"
+
+  - name: "Larchmont Library"
+    url: "https://www.larchmontlibrary.org/events"
+    method: "html"
+    status: "good"
+    notes: "Events page with structured HTML"
+    selectors:
+      container: "article.event"
+      title: "h2.event-title"
+      description: "div.event-content"
+      date: "time.event-date"
+      time: "span.time"
+      location: "span.location"
+      url: "a"
+      image: "img"
+
+  # ===============================
+  # Playwright Scraper Sites
+  # (For JavaScript-heavy sites)
+  # ===============================
+
+  - name: "Town of Larchmont"
+    url: "https://www.townlarchmont.gov/calendar"
+    method: "playwright"
+    status: "ok"
+    notes: "JavaScript-heavy, requires rendering. Use longer wait times."
+    timeout: 60000  # 60 seconds
+    wait_selector: "div.calendar-event"
+    additional_wait: 3000  # 3 seconds
+    selectors:
+      container: "div.calendar-event"
+      title: "h3"
+      description: "p.description"
+      date: "span.date"
+      time: "span.time"
+      url: "a"
+
+  - name: "Westchester County Events"
+    url: "https://westchestergov.com/events"
+    method: "playwright"
+    status: "ok"
+    notes: "Dynamic content loaded via JavaScript"
+    timeout: 45000
+    wait_selector: "div.event-card"
+    additional_wait: 2000
+    selectors:
+      container: "div.event-card"
+      title: "h4.title"
+      description: "div.content"
+      date: "span.date"
+      time: "span.time"
+      location: "span.location"
+      url: "a.event-link"
+      image: "img"
+
+  # ===============================
+  # Vision Scraper Sites
+  # (For image-based events)
+  # ===============================
+
+  - name: "At Home on the Sound"
+    url: "https://www.athomeonthesound.org/calendar"
+    method: "vision"
+    status: "ok"
+    notes: "Calendar is in PDF format with changing URLs"
+    image_selector: "a[href*='.pdf']"  # Find PDF links
+
+  # ===============================
+  # Sites to be configured
+  # (Add your remaining 43 sites here)
+  # ===============================
+
+  # Example template for new sites:
+  #
+  # - name: "Organization Name"
+  #   url: "https://example.com/events"
+  #   method: "html"  # or ical, json, playwright, vision
+  #   status: "unchecked"
+  #   notes: "Add notes about the site structure"
+  #   # For HTML/Playwright, add selectors:
+  #   selectors:
+  #     container: "div.event"
+  #     title: "h2"
+  #     description: "p"
+  #     date: "span.date"
+  #     time: "span.time"
+  #     location: "span.location"
+  #     url: "a"
+  #     image: "img"
+
+  - name: "Example HTML Site"
+    url: "https://example.com/events"
+    method: "html"
+    status: "unchecked"
+    notes: "Template for HTML sites"
+    enabled: false  # Set to true to enable scraping
+    selectors:
+      container: "div.event"
+      title: "h2"
+      description: "p.description"
+      date: "span.date"
+      time: "span.time"
+      location: "span.location"
+      url: "a"
+
+  - name: "Example iCal Site"
+    url: "https://example.com"
+    ical_url: "https://example.com/calendar.ics"
+    method: "ical"
+    status: "unchecked"
+    notes: "Template for iCal sites"
+    enabled: false
+
+  - name: "Example JSON Site"
+    url: "https://example.com"
+    api_url: "https://example.com/api/events"
+    method: "json"
+    status: "unchecked"
+    notes: "Template for JSON API sites"
+    enabled: false
+    field_map:
+      title: "name"
+      description: "desc"
+      when_date: "date"
+      when_time: "time"
+      location: "venue"
+      event_url: "link"
